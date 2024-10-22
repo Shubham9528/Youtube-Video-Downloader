@@ -6,7 +6,7 @@ This project is a **YouTube Video Downloader** that allows users to download You
 ![image](https://github.com/user-attachments/assets/cd377bc5-2ec7-4817-ac0c-6b1fc97b125e)
 
 
-![image](https://github.com/user-attachments/assets/1612b7e1-b24a-489c-93ff-ef23f489732b)
+
 
 ![image](https://github.com/user-attachments/assets/843c9ec0-1655-4daa-b543-74fc34b9abb4)
 
@@ -37,6 +37,8 @@ This project is a **YouTube Video Downloader** that allows users to download You
 ---
 
 ## 📂 Project Structure
+
+![image](https://github.com/user-attachments/assets/69771960-3249-41bf-9d90-566f805e83dc)
 
 
 ---
