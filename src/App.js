@@ -2,7 +2,7 @@ import './App.css';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-function App() {
+function App({setTime}) {
   // Link and resolution state
   const [videoDetails, setVideoDetails] = useState({
     link: "",
@@ -36,7 +36,11 @@ function App() {
       .then((res) => {
         setFinalVideoPath(res.data.message);  // Use setFinalVideoPath to update the state
         // path=res.data.downloadPath;
+         setTime(res.data.time);
+        if(res.data.message === "Download complete"){
           setShowButton(!showButton);
+        }
+         
           setVideoResponse(res.data.downloadPath);
           //  console.log(res.data.downloadPath);  // Log the message
               
@@ -51,89 +55,97 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <h1 className="text-4xl font-extrabold text-indigo-600 mb-6">YouTube Video Downloader</h1>
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <input
-            name="link"
-            onChange={handleChange}
-            value={videoDetails.link}
-            type="text"
-            placeholder="Enter YouTube link"
-            required
-            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-8">
+  <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-10 transform transition-transform hover:scale-105">
+    <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
+      Download YouTube Videos
+    </h1>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="relative">
+        <input
+          name="link"
+          onChange={handleChange}
+          value={videoDetails.link}
+          type="text"
+          placeholder="Enter YouTube URL"
+          required
+          className="w-full p-4 pl-12 border border-gray-300 rounded-full focus:outline-none focus:ring-4 focus:ring-teal-300"
+        />
+        <svg
+          className="w-6 h-6 absolute top-4 left-4 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 12H9m0 0l-3 3m3-3l-3-3m15 3a9 9 0 11-18 0 9 9 0 0118 0z"
           />
-          <div className="grid grid-cols-2 gap-4">
-            <label className="flex items-center space-x-3">
-              <input
-                type="radio"
-                name="resolution"
-                value="360"
-                checked={videoDetails.resolution === "360"}
-                onChange={handleChange}
-                required
-                className="form-radio h-5 w-5 text-indigo-600"
-              />
-              <span className="text-gray-700">360p</span>
-            </label>
-            <label className="flex items-center space-x-3">
-              <input
-                type="radio"
-                name="resolution"
-                value="480"
-                checked={videoDetails.resolution === "480"}
-                onChange={handleChange}
-                required
-                className="form-radio h-5 w-5 text-indigo-600"
-              />
-              <span className="text-gray-700">480p</span>
-            </label>
-            <label className="flex items-center space-x-3">
-              <input
-                type="radio"
-                name="resolution"
-                value="720"
-                checked={videoDetails.resolution === "720"}
-                onChange={handleChange}
-                required
-                className="form-radio h-5 w-5 text-indigo-600"
-              />
-              <span className="text-gray-700">720p HD</span>
-            </label>
-            <label className="flex items-center space-x-3">
-              <input
-                type="radio"
-                name="resolution"
-                value="1080"
-                checked={videoDetails.resolution === "1080"}
-                onChange={handleChange}
-                required
-                className="form-radio h-5 w-5 text-indigo-600"
-              />
-              <span className="text-gray-700">1080p Full HD</span>
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-500 transition duration-300"
-          >
-            Download
-          </button>
-        </form>
-
-        <h3 className="mt-6 text-gray-700 text-center">Video status: {finalVideoPath}</h3>
-        <nav className="mt-4 text-center">
-          {showButton && (
-            <Link to="/download">
-              <button className="py-2 px-4 bg-green-500 text-white font-bold rounded-lg hover:bg-green-400 transition duration-300">
-                Go to file
-              </button>
-            </Link>
-          )}
-        </nav>
+        </svg>
       </div>
+
+      {/* Added text below the link input */}
+      <p className="text-center text-gray-600 font-medium">Select video quality</p>
+
+      <div className="space-y-3">
+        <h3 className="text-lg font-medium text-gray-700">Select Resolution</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {["360", "480", "720", "1080"].map((res) => (
+            <label
+              key={res}
+              className="flex items-center justify-center p-3 bg-gray-100 rounded-lg hover:bg-teal-50 transition-colors cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="resolution"
+                value={res}
+                checked={videoDetails.resolution === res}
+                onChange={handleChange}
+                required
+                className="hidden"
+              />
+              <span
+                className={`text-lg ${
+                  videoDetails.resolution === res
+                    ? "text-teal-500 font-semibold"
+                    : "text-gray-600"
+                }`}
+              >
+                {res}p
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full py-3 bg-teal-500 text-white font-bold rounded-full shadow-lg hover:bg-teal-600 transition-transform duration-300"
+      >
+        Download Video
+      </button>
+    </form>
+
+    <div className="mt-8 text-center">
+      <h3 className="text-gray-500 text-md">Download Status:</h3>
+      <p className="text-lg font-semibold text-gray-700 mt-2">{finalVideoPath}</p>
     </div>
+
+    {showButton && (
+      <nav className="mt-6 text-center">
+        <Link to="/download">
+          <button className="py-3 px-8 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition duration-300">
+            Go to File
+          </button>
+        </Link>
+      </nav>
+    )}
+  </div>
+</div>
+
   );
 }
 

@@ -9,7 +9,7 @@ const app = express();
 const port = 4000;
 let finalVideoUrl = "";
 let outputPath="";
-let time=60000;
+let time=600000;
 // Enable CORS
 app.use(cors()); // Use CORS middleware
 
@@ -17,7 +17,7 @@ app.use(cors()); // Use CORS middleware
 
 // Configure  middleware
 app.use(bodyParser.json());//body-parser
-app.use('/videos', express.static(path.resolve(__dirname, './savedVideos')));
+app.use('/videos', express.static(path.resolve(process.cwd(), './savedVideos')));//storing videos on localhost 4000
 
 
 
@@ -54,7 +54,7 @@ app.post('/download', async (req, res) => {
     console.log(`Received request to download video: ${link} at ${resolution}p resolution`);
      await videoDownload(link, resolution);
 
-     res.json({ message: 'Download complete', downloadPath: finalVideoUrl, directory: __dirname });
+     res.json({ message: 'Download complete', downloadPath: finalVideoUrl, directory: __dirname, time:time });
     //  res.send({ message: 'Download complete', downloadPath: finalVideoUrl, directory: __dirname });
 
       // detete the video
