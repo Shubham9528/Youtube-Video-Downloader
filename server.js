@@ -8,7 +8,8 @@ const fs = require('fs');
 const app = express();
 const port = 4000;
 let finalVideoUrl = "";
-
+let outputPath="";
+let time=60000;
 // Enable CORS
 app.use(cors()); // Use CORS middleware
 
@@ -16,15 +17,17 @@ app.use(cors()); // Use CORS middleware
 
 // Configure  middleware
 app.use(bodyParser.json());//body-parser
-
+app.use('/videos', express.static(path.resolve(__dirname, './savedVideos')));
 
 
 
 
 // Async function to download video
 async function videoDownload(videoUrl, resolution) {
-    const outputPath = path.resolve(`${__dirname}/public/savedVideos`, 'video.mp4');
-    console.log(`Video will be saved to: ${outputPath}`);
+    // const outputPath = path.resolve(`${__dirname}/savedVideos`, 'video.mp4');
+    outputPath = path.resolve(`${__dirname}/./savedVideos`, 'video.mp4');
+
+    // console.log(`Video will be saved to: ${outputPath}`);
    
     // Use youtubedl an external library to download the video
     try {
@@ -56,19 +59,21 @@ app.post('/download', async (req, res) => {
 
       // detete the video
     setTimeout(() => {
-        fs.unlink(`${__dirname}/public/savedVideos/video.mp4`, (err) => {
+        fs.unlink(outputPath, (err) => {
           if (err) {
             console.error('Error deleting file:', err);
           } else {
             console.log('File deleted:',`${__dirname}/public/savedVideos/video.mp4`);
           }
         });
-      }, 60000); 
+      }, time); 
 
 
 });
 
-
+app.get('/', (req, res) => {
+    res.send('<h1 style="text-align:center; font-family: Roboto;">Youtube Video Downloader Server is running... click <a href="http://localhost:3000">here</a> to view</h1>');
+});
 
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);

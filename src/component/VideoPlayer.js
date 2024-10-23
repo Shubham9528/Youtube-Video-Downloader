@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 const VideoPlayer = () => {
   // Path to the video stored in the public folder
-  const videoSrc = process.env.PUBLIC_URL + '/savedVideos/video.mp4';
-
+  // const videoSrc = process.env.PUBLIC_URL + '/savedVideos/video.mp4';
+  const videoSrc = 'http://localhost:4000/videos/video.mp4';
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
     {/* Heading */}
@@ -22,7 +22,7 @@ const VideoPlayer = () => {
 
       {/* Warning message */}
       <p className="mt-4 text-red-600 font-semibold text-center">
-        ⚠️ Video will be deleted in 1 min
+        ⚠️ Video will be deleted in 5 min
       </p>
 
       {/* Go Back link */}

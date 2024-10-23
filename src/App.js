@@ -27,7 +27,7 @@ function App() {
     e.preventDefault();
     // Call the sendLink function to post the data to the server
     sendLink();
-    setFinalVideoPath("Downloading...");
+    setFinalVideoPath("Processing your request...");
   }
 
   // Send video link and resolution via Axios to the backend
