@@ -1,4 +1,6 @@
-## This project is a **YouTube Video Downloader** that allows users to download YouTube videos by simply entering the link and choosing a resolution. Built with **React.js** on the frontend and **Node.js** on the backend, this application leverages the `youtube-dl` library to handle the video downloading process.
+  # 🎥 YouTube Video Downloader 🌐
+ 
+ This project is a **YouTube Video Downloader** that allows users to download YouTube videos by simply entering the link and choosing a resolution. Built with **React.js** on the frontend and **Node.js** on the backend, this application leverages the `youtube-dl` library to handle the video downloading process.
 
 ![image](https://github.com/user-attachments/assets/05944d0d-10ec-48df-b446-c7180ab55ca1)
 
